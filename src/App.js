@@ -4,15 +4,14 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    name: "Mama Araoluwa",
-    loading: false,
-    showName: true,
+    icon: "fab fa-github",
+    title: "Github Finder",
   };
 
   render() {
     return (
-      <div className="navbar bg-primary">
-        <NavBar title="Github Finder" icon="fab fa-github" />
+      <div className="navbar bg-primary2">
+        <NavBar title={this.state.title} icon={this.state.icon} />
       </div>
     );
   }
