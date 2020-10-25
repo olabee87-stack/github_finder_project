@@ -5,13 +5,18 @@ class Search extends Component {
     text: "",
   };
 
+  //@form method
+  onSubmit = (e) => {
+    e.preventDefault();
+  };
+
   //@input method
   onChange = (e) => this.setState({ [e.target.name]: e.target.value }); //set name of target to value
 
   render() {
     return (
       <div>
-        <form className="form">
+        <form onSubmit={this.onSubmit} className="form">
           <input
             type="text"
             name="text"
