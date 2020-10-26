@@ -13,22 +13,25 @@ class App extends Component {
     loading: false,
   };
 
-  async componentDidMount() {
+  //@ search Github users method -$text-:@users search input
+  searchUsersHandler = async (text) => {
     this.setState({ loading: true });
+
     const res = await axios.get(
-      `https://api.github.com/users?client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    console.log(res.config);
-    this.setState({ users: res.data, loading: false });
-  }
+    //populate the users array with the value gotten from the search response
+    this.setState({ users: res.data.items, loading: false });
+    console.log(res);
+  };
 
   render() {
     return (
       <div className="App">
         <NavBar title={this.state.title} icon={this.state.icon} />
         <div className="container">
-          <Search />
+          <Search searchUsers={this.searchUsersHandler} />
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
