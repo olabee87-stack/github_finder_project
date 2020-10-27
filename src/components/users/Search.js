@@ -11,13 +11,18 @@ class Search extends Component {
     searchUsers: PropTypes.func.isRequired,
     clearUsers: PropTypes.func.isRequired,
     showClear: PropTypes.bool.isRequired,
+    setAlert: PropTypes.func.isRequired,
   };
 
   //@form method - onSubmitHandler -> call this.props.searchUsers -> search Github users based on input
   onSubmitHandler = (e) => {
     e.preventDefault();
-    this.props.searchUsers(this.state.text);
-    this.setState({ text: "" }); //clear form
+    if (this.state.text === "") {
+      this.props.setAlert("Please enter something", "light"); //@Pop-up if input field is nothing
+    } else {
+      this.props.searchUsers(this.state.text);
+      this.setState({ text: "" }); //clear form
+    }
   };
 
   //@input method - update component
