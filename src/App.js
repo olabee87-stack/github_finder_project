@@ -13,7 +13,7 @@ class App extends Component {
     loading: false,
   };
 
-  //@ search Github users method -$text-:@users search input
+  //@Search Github users method -$text-:@users search input
   searchUsersHandler = async (text) => {
     this.setState({ loading: true });
 
@@ -21,18 +21,26 @@ class App extends Component {
       `https://api.github.com/search/users?q=${text}&client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    //populate the users array with the value gotten from the search response
+    //Populate the users array with the value gotten from the search response
     this.setState({ users: res.data.items, loading: false });
     console.log(res);
   };
 
+  //@Clear users handler
+  clearUsersHandler = () => this.setState({ users: [], loading: false });
+
   render() {
+    const { users, loading, title, icon } = this.state; //@Destructure state
     return (
       <div className="App">
-        <NavBar title={this.state.title} icon={this.state.icon} />
+        <NavBar title={title} icon={icon} />
         <div className="container">
-          <Search searchUsers={this.searchUsersHandler} />
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search
+            searchUsers={this.searchUsersHandler}
+            clearUsers={this.clearUsersHandler}
+            showClear={users.length > 0 ? true : false} //show button when only users are displayed
+          />
+          <Users loading={loading} users={users} />
         </div>
       </div>
     );

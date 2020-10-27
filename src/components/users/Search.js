@@ -9,6 +9,8 @@ class Search extends Component {
   //@prop type
   static propTypes = {
     searchUsers: PropTypes.func.isRequired,
+    clearUsers: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired,
   };
 
   //@form method - onSubmitHandler -> call this.props.searchUsers -> search Github users based on input
@@ -22,6 +24,7 @@ class Search extends Component {
   onChangeHandler = (e) => this.setState({ [e.target.name]: e.target.value }); //set name of target to value
 
   render() {
+    const { showClear, clearUsers } = this.props; //@destructure props
     return (
       <div>
         <form onSubmit={this.onSubmitHandler} className="form">
@@ -38,6 +41,12 @@ class Search extends Component {
             className="btn btn-dark btn-block"
           />
         </form>
+        {/* showClear prop -clearUsers button only when the user array is visible */}
+        {showClear && (
+          <button className="btn btn-light btn-block" onClick={clearUsers}>
+            Clear
+          </button>
+        )}
       </div>
     );
   }
