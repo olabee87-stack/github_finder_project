@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import NavBar from "./components/layout/NavBar";
 import Alert from "./components/layout/Alert";
@@ -34,26 +35,37 @@ class App extends Component {
   //@Set Alert handler - @msg, @type - params from Search.js
   setAlertHandler = (msg, type) => {
     this.setState({ alert: { msg, type } });
-
     setTimeout(() => this.setState({ alert: null }), 5000); //set alert to null after 5s
   };
 
   render() {
     const { users, loading, title, icon, alert } = this.state; //@Destructure state
     return (
-      <div className="App">
-        <NavBar title={title} icon={icon} />
-        <div className="container">
-          <Alert alert={alert} />
-          <Search
-            searchUsers={this.searchUsersHandler}
-            clearUsers={this.clearUsersHandler}
-            showClear={users.length > 0 ? true : false} //show button when only users are displayed
-            setAlert={this.setAlertHandler}
-          />
-          <Users loading={loading} users={users} />
+      <Router>
+        <div className="App">
+          <NavBar title={title} icon={icon} />
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Fragment>
+                    <Search
+                      searchUsers={this.searchUsersHandler}
+                      clearUsers={this.clearUsersHandler}
+                      showClear={users.length > 0 ? true : false} //show button when only users are displayed
+                      setAlert={this.setAlertHandler}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )}
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
