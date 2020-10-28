@@ -39,13 +39,15 @@ class User extends Component {
     //@Return the below content after the single user's data has been loaded
     return (
       <Fragment>
-        <p>{name}</p>
-        {hireable}
-        <p>{followers}</p>
-        <p>{following}</p>
         <Link to="/" className="btn btn-light">
           Back to Search
         </Link>
+        Hireable:{" "}
+        {hireable ? (
+          <i className="fas fa-check text-success" />
+        ) : (
+          <i className="fas fa-times-circle text-danger" />
+        )}
       </Fragment>
     );
   }
