@@ -48,6 +48,26 @@ class User extends Component {
         ) : (
           <i className="fas fa-times-circle text-danger" />
         )}
+        <div className="card grid-2">
+          <div className="all-center">
+            <img
+              src={avatar_url}
+              alt="user-img"
+              className="round-img"
+              style={{ width: "160px" }}
+            />
+            <h1>{name}</h1>
+            <p>Location: {location}</p>
+          </div>
+          <div>
+            {bio && (
+              <Fragment>
+                <h3>Bio</h3>
+                <p>{bio}</p>
+              </Fragment>
+            )}
+          </div>
+        </div>
       </Fragment>
     );
   }
