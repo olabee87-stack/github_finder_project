@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import NavBar from "./components/layout/NavBar";
 import Alert from "./components/layout/Alert";
+import User from "./components/users/User";
 import Users from "./components/users/Users";
 import Search from "./components/users/Search";
 import About from "./components/pages/About";
@@ -12,9 +13,21 @@ class App extends Component {
   state = {
     icon: "fab fa-github",
     title: "Github Finder",
+    user: {},
     users: [],
     loading: false,
     alert: null,
+  };
+
+  //@Get single Github user
+  getUser = async (loginUsername) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${loginUsername}?client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ user: res.data, loading: false });
   };
 
   //@Search Github users method -$text-:@users search input
@@ -40,7 +53,7 @@ class App extends Component {
   };
 
   render() {
-    const { users, loading, title, icon, alert } = this.state; //@Destructure state
+    const { user, users, loading, title, icon, alert } = this.state; //@Destructure state
     return (
       <Router>
         <div className="App">
@@ -64,6 +77,18 @@ class App extends Component {
                 )}
               />
               <Route exact path="/about" component={About} />
+              <Route
+                exact
+                path="/user/:login"
+                render={(props) => (
+                  <User
+                    {...props}
+                    getUser={this.getUser}
+                    eachUser={user}
+                    loading={loading}
+                  />
+                )}
+              />
             </Switch>
           </div>
         </div>
