@@ -277,7 +277,8 @@ img {
   color: #fff;
 }
 
-.bg-primary2 {
+.bg-primary2,
+.badge-primary2 {
   background: var(--primary2-color);
   color: #fff;
 }
