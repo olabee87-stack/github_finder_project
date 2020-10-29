@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Spinner from "../layout/Spinner";
+import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -15,6 +16,7 @@ class User extends Component {
     eachUser: PropTypes.object.isRequired,
     getUser: PropTypes.func.isRequired,
     getUserRepos: PropTypes.func.isRequired,
+    repos: PropTypes.array.isRequired,
   };
 
   render() {
@@ -34,7 +36,7 @@ class User extends Component {
       hireable,
     } = this.props.eachUser;
 
-    const { loading } = this.props;
+    const { loading, repos } = this.props;
 
     //@show spinner while a single user's data is loading
     if (loading) return <Spinner />;
@@ -107,6 +109,7 @@ class User extends Component {
           </div>
           <div className="badge badge-dark">Public Gists: {public_gists}</div>
         </div>
+        <Repos repos={repos} />
       </Fragment>
     );
   }
