@@ -14,13 +14,14 @@ class App extends Component {
     icon: "fab fa-github",
     title: "Github Finder",
     user: {},
+    repos: [],
     users: [],
     loading: false,
     alert: null,
   };
 
   //@Get single Github user
-  getUser = async (loginUsername) => {
+  getUserHandler = async (loginUsername) => {
     this.setState({ loading: true });
 
     const res = await axios.get(
@@ -43,6 +44,17 @@ class App extends Component {
     console.log(res);
   };
 
+  //@Get users Repos
+  getUserReposHandler = async (username) => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ repos: res.data, loading: false });
+  };
+
   //@Clear users handler
   clearUsersHandler = () => this.setState({ users: [], loading: false });
 
@@ -53,7 +65,7 @@ class App extends Component {
   };
 
   render() {
-    const { user, users, loading, title, icon, alert } = this.state; //@Destructure state
+    const { user, users, loading, title, icon, alert, repos } = this.state; //@Destructure state
     return (
       <Router>
         <div className="App">
@@ -83,9 +95,11 @@ class App extends Component {
                 render={(props) => (
                   <User
                     {...props}
-                    getUser={this.getUser}
+                    getUser={this.getUserHandler}
+                    getUserRepos={this.getUserReposHandler}
                     eachUser={user}
                     loading={loading}
+                    repos={repos}
                   />
                 )}
               />
