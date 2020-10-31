@@ -25,7 +25,7 @@ class Search extends Component {
     }
   };
 
-  //@input method - update component
+  //@input method - update component - change state to whatever value types into the input bar
   onChangeHandler = (e) => this.setState({ [e.target.name]: e.target.value }); //set name of target to value
 
   render() {
