@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const Search = ({ showClear, clearUsers, searchUsers, setAlert }) => {
   const [text, setText] = useState("");
 
-  //@form method - onSubmitHandler -> call this.props.searchUsers -> search Github users based on input
+  //@form method - onSubmitHandler -> searchUsers -> search Github users based on input
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (text === "") {
@@ -16,7 +16,7 @@ const Search = ({ showClear, clearUsers, searchUsers, setAlert }) => {
   };
 
   //@input method - update component - change state to whatever value types into the input bar
-  const onChangeHandler = (e) => setText(e.target.value); //set name of target to value
+  const onChangeHandler = (e) => setText(e.target.value); //state of text is the inpt passed in
 
   return (
     <div>
