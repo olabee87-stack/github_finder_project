@@ -1,10 +1,16 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useContext } from "react";
 import Spinner from "../layout/Spinner";
 import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import GithubContext from "../../context/github/githubContext";
 
-const User = ({ getUser, getUserRepos, eachUser, loading, repos, match }) => {
+const User = ({ getUserRepos, repos, match }) => {
+  //@Get state from context
+  const githubContext = useContext(GithubContext);
+
+  const { getUser, loading, user } = githubContext;
+
   useEffect(() => {
     getUser(match.params.login); //pull a username's login name- defined /user/:login on App.js
     getUserRepos(match.params.login);
@@ -25,7 +31,7 @@ const User = ({ getUser, getUserRepos, eachUser, loading, repos, match }) => {
     public_repos,
     public_gists,
     hireable,
-  } = eachUser;
+  } = user;
 
   //@show spinner while a single user's data is loading
   if (loading) return <Spinner />;
@@ -103,9 +109,6 @@ const User = ({ getUser, getUserRepos, eachUser, loading, repos, match }) => {
 
 //@Prop-types
 User.propTypes = {
-  loading: PropTypes.bool,
-  eachUser: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
   getUserRepos: PropTypes.func.isRequired,
   repos: PropTypes.array.isRequired,
 };

@@ -13,22 +13,9 @@ import GithubState from "./context/github/GithubState";
 import "./App.css";
 
 const App = () => {
-  const [user, setUser] = useState({});
-  const [users, setUsers] = useState([]);
   const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  //@Get single Github user
-  const getUserHandler = async (login) => {
-    setLoading(true);
-
-    const res = await axios.get(
-      `https://api.github.com/users/${login}?client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-    setUser(res.data);
-    setLoading(false);
-  };
+  const [loading, setLoading] = useState(false);
 
   //@Get users Repos
   const getUserReposHandler = async (username) => {
@@ -39,12 +26,6 @@ const App = () => {
     );
 
     setRepos(res.data);
-    setLoading(false);
-  };
-
-  //@Clear users handler
-  const clearUsersHandler = () => {
-    setUsers([]);
     setLoading(false);
   };
 
@@ -67,12 +48,8 @@ const App = () => {
                 path="/"
                 render={(props) => (
                   <Fragment>
-                    <Search
-                      clearUsers={clearUsersHandler}
-                      showClear={users.length > 0 ? true : false} //show button when only users are displayed
-                      setAlert={setAlertHandler}
-                    />
-                    <Users loading={loading} users={users} />
+                    <Search setAlert={setAlertHandler} />
+                    <Users />
                   </Fragment>
                 )}
               />
@@ -83,10 +60,7 @@ const App = () => {
                 render={(props) => (
                   <User
                     {...props}
-                    getUser={getUserHandler}
                     getUserRepos={getUserReposHandler}
-                    eachUser={user}
-                    loading={loading}
                     repos={repos}
                   />
                 )}
