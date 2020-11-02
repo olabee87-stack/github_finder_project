@@ -24,7 +24,19 @@ const GithubState = (props) => {
   //Call an Action -> to make a request to Github -> Get a response -> Dispatch a type to the reducer
   const [state, dispatch] = useReducer(GithubReducer, initalState);
 
-  //@Search Users
+  //@Search Github users method -$text-:@users search input
+  const searchUsers = async (text) => {
+    setLoading();
+
+    const res = await axios.get(
+      `https://api.github.com/search/users?q=${text}&client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    dispatch({
+      type: SEARCH_USERS,
+      payload: res.data.items, //data to send - to be sent from the Github reducer
+    });
+  };
 
   //@Get User
 
@@ -33,6 +45,7 @@ const GithubState = (props) => {
   //@Clear Users
 
   //@Set Loading
+  const setLoading = () => dispatch({ type: SET_LOADING }); //dispatch to reducer
 
   //@Wrap entire application in a provider - Takes in a prop pf value ->Pass in everything to want available app
   return (
@@ -42,6 +55,7 @@ const GithubState = (props) => {
         user: state.user,
         repos: state.repos,
         loading: state.loading,
+        searchUsers,
       }}
     >
       {props.children}

@@ -30,20 +30,6 @@ const App = () => {
     setLoading(false);
   };
 
-  //@Search Github users method -$text-:@users search input
-  const searchUsersHandler = async (text) => {
-    setLoading(true);
-
-    const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client=${process.env.REACT_APP_GITHUB_CLIENT_ID}&secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    );
-
-    //Populate the users array with the value gotten from the search response
-    setUsers(res.data.items);
-    setLoading(false);
-    console.log(res);
-  };
-
   //@Get users Repos
   const getUserReposHandler = async (username) => {
     setLoading(true);
@@ -82,7 +68,6 @@ const App = () => {
                 render={(props) => (
                   <Fragment>
                     <Search
-                      searchUsers={searchUsersHandler}
                       clearUsers={clearUsersHandler}
                       showClear={users.length > 0 ? true : false} //show button when only users are displayed
                       setAlert={setAlertHandler}
